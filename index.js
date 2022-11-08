@@ -16,6 +16,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 function run (){
     try {
         const servicesCollection = client.db('lawServices').collection('services')
+        const reviewCollection = client.db('lawServices').collection('review')
         app.get('/services', async(req,res)=>{
             const query = {}
             const cursor = servicesCollection.find(query)
@@ -34,6 +35,40 @@ function run (){
             const result = await servicesCollection.findOne(query)
             res.send(result)
         })
+
+
+
+        // Review api
+        app.post('/review', async(req, res)=>{
+            const query = req.body;
+            console.log(query);
+            const review = await reviewCollection.insertOne(query)
+            res.send(review)
+        })
+        app.get('/review', async(req,res)=>{
+            const query= {}
+            const cursor = reviewCollection.find(query)
+            const review = await cursor.toArray()
+            res.send(review)
+        })
+        app.get('/review', async(req,res)=>{
+            let query= {}
+            if(req.query.serviceId){
+                query={
+                    serviceId : req.query.serviceId
+                }
+            }
+            const cursor = reviewCollection.find(query)
+            const review = await cursor.toArray()
+            res.send(review)
+        })
+
+        app.delete('/review/:id', async(req,res)=>{
+            const id = req.params.id;
+            const query= {_id:ObjectId(id)}
+            const result = await reviewCollection.deleteOne(query)
+            res.send(result)
+           })
     } catch (error) {
         console.log(error);
     }
