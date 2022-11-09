@@ -55,17 +55,10 @@ function run (){
             const review = await cursor.toArray()
             res.send(review)
         })
-        app.get('/review', async(req,res)=>{
-            let query= {}
-            if(req.query.serviceId){
-                query={
-                    serviceId : req.query.serviceId
-                }
-            }
-            const cursor = reviewCollection.find(query)
-            const review = await cursor.toArray()
-            res.send(review)
-        })
+
+        
+
+
         app.delete('/review/:id', async(req,res)=>{
             const id = req.params.id;
             const query= {_id:ObjectId(id)}
