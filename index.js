@@ -36,7 +36,11 @@ function run (){
             res.send(result)
         })
 
-
+        app.post('/services', async(req, res)=>{
+            const query = req.body;
+            const service = await servicesCollection.insertOne(query)
+            res.send(service)
+        })
 
         // Review api
         app.post('/review', async(req, res)=>{
