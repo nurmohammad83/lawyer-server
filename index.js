@@ -49,6 +49,37 @@ function run (){
             const review = await reviewCollection.insertOne(query)
             res.send(review)
         })
+
+        app.get('/reviews', async(req,res)=>{
+            let query= {}
+            console.log(req.query);
+            console.log(query);
+            if(req.query.serviceId){
+                query ={
+                    serviceId: req.query.serviceId
+                }
+            }
+        
+            const cursor = reviewCollection.find(query)
+            const review = await cursor.toArray()
+            res.send(review)
+        })
+
+        app.get('/review', async(req,res)=>{
+            let query= {}
+            console.log(req.query);
+            console.log(query);
+            if(req.query.email){
+                query ={
+                    email: req.query.email
+                }
+            }
+
+            const cursor = reviewCollection.find(query)
+            const review = await cursor.toArray()
+            res.send(review)
+        })
+        
         app.get('/review', async(req,res)=>{
             const query= {}
             const cursor = reviewCollection.find(query)
