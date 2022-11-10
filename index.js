@@ -101,6 +101,21 @@ function run() {
             res.send(review)
         })
 
+        
+        
+        app.get('/review', async (req, res) => {
+            const query = {}
+            const cursor = reviewCollection.find(query)
+            const review = await cursor.toArray()
+            res.send(review)
+        })
+
+        app.delete('/review/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const result = await reviewCollection.deleteOne(query)
+            res.send(result)
+        })
         app.put('/review/:id',async (req,res)=>{
             const id = req.params.id;
         const filter = { _id: ObjectId(id)}
@@ -114,21 +129,6 @@ function run() {
         }
         const result =await reviewCollection.updateOne(filter,updateUser,option)
         res.send(result)
-        })
-
-
-        app.get('/review', async (req, res) => {
-            const query = {}
-            const cursor = reviewCollection.find(query)
-            const review = await cursor.toArray()
-            res.send(review)
-        })
-
-        app.delete('/review/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) }
-            const result = await reviewCollection.deleteOne(query)
-            res.send(result)
         })
     } catch (error) {
         console.log(error);
